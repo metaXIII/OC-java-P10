@@ -5,10 +5,12 @@ import com.librairie.batch.model.Livre;
 import com.librairie.batch.model.Reservation;
 import com.librairie.batch.model.User;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,6 @@ import java.util.Optional;
 @Slf4j
 public class EmailService {
     private static final Logger logger = LogManager.getLogger(EmailService.class);
-    
 
     private final JavaMailSender mailSender;
 
@@ -47,7 +48,6 @@ public class EmailService {
                     log.error(e.getMessage());
                 }
             });
-            logger.error("erreur lors de la récupération de l'utilisateur");
         });
     }
 
@@ -57,13 +57,13 @@ public class EmailService {
         MimeMessageHelper helper  = new MimeMessageHelper(message, true, "ISO-8859-1");
         helper.setFrom(this.defaultSender);
         helper.setTo(user.getEmail());
-//        helper.setFrom(MyConstants.MY_EMAIL);
-//        helper.setTo(MyConstants.FRIEND_EMAIL);
         helper.setText("<h3>Bonjour " + user.getUsername() + "</h6>" +
-                "    <p> Merci de régulariser la réservation " + reservation.getId() + " dans les meilleurs " +
-                "délais. Pour rappel : </p>" +
-                "<ul>" + getList(reservation.getLivreId()) +
-                "</ul><br><p>Merci de votre compréhension</p><p>Cordialement</p><p>Le service Librairie</p>", true);
+                               "    <p> Merci de régulariser la réservation " + reservation.getId() + " dans les " +
+                               "meilleurs " +
+                               "délais. Pour rappel : </p>" +
+                               "<ul>" + getList(reservation.getLivreId()) +
+                               "</ul><br><p>Merci de votre compréhension</p><p>Cordialement</p><p>Le service " +
+                               "Librairie</p>", true);
         helper.setSubject("Urgent : Régularisation de votre réservation !");
         this.mailSender.send(message);
     }
