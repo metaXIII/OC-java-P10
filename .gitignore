@@ -10,3 +10,4 @@ librairie-batch/src/main/java/com/librairie/batch/constants/MyConstants.java
 **.log
 
 **/target/**
+target/**
