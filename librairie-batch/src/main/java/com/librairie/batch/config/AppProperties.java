@@ -12,7 +12,6 @@ import javax.validation.constraints.NotEmpty;
 @Validated
 public class AppProperties {
 
-    @NotEmpty
     @Email
     private String defaultEmailSender;
 
