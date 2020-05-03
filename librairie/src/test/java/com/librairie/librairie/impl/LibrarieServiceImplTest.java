@@ -5,6 +5,7 @@ import com.librairie.librairie.model.Livre;
 import com.librairie.librairie.repositories.LibrairieRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,12 +53,6 @@ class LibrarieServiceImplTest {
     void shouldReturnConflictStatusWhenQuantiteIsNotEnoughForReserve() {
         when(librairieRepository.findById(anyLong())).thenReturn(Optional.of(mockLivreWithBadQuantity()));
         assertEquals(409, librairieService.reserve("1").getStatusCodeValue());
-    }
-
-    @Test
-    void shouldReturnAcceptedStatusWhenReservationIsDone() {
-        when(librairieRepository.findById(anyLong())).thenReturn(Optional.of(mockLivre()));
-        assertEquals(202, librairieService.reserve("1").getStatusCodeValue());
     }
 
     private Livre mockLivre() {
