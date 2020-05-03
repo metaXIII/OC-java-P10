@@ -10,8 +10,8 @@
         <module>librairie-reservation</module>
         <module>librairie-user</module>
     </modules>
-    <groupId>com.librairie</groupId>
-    <artifactId>librairie</artifactId>
+    <groupId>com.manager</groupId>
+    <artifactId>manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>OC-java-P10</name>
     <description>Projet 10 : librairie</description>
