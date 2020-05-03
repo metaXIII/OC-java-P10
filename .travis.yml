@@ -11,4 +11,4 @@ addons:
       kxZdKZdHb/YJnJe1OAvbMVEXPk1KdTgN8CxveGJpprIMi0pDwCbDddwSPQuB+nTG4T1i5WKJFuxmnZyVdIvwIbV1AZU6Bqq6ovrNM+zJCV3IOPILYEGa2uO6UwjU9dB6XMgP/COxy77+Yyy+tMaGDVSxA8lcENaL7LVpcEuvt7JsrNOw7DpyjOKtt9NDwQI+/fuqmO2cr23fflV8gxxBOyoosHTCIFJ+T6nHHZDES+sGfK0JavX/KAtB+I/UbVZbIupuyLS4G
       iPNbqVunrsBD1U6PBxWKA5wwQMRxQxPE26UyMRNpRlN4XJ5U6Qfy8TFKWijxPSmGFqaYAr3sfimsIXGGdBxZe6LlKC7LmJXoa89mkf5ZTN10dnGk/Gl5XWuZrZAVGLGBOIql8Yh5lAUVaje+OB1wx5rX5RTZS0ydHzls="
 script:
-  - mvn clean install sonar:sonar -Dsonar.projectKey=metaXIII_OC-java-P10
+  - mvn clean install org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.projectKey=metaXIII_OC-java-P10
