@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 @ConfigurationProperties(prefix = "app")
 @Component
