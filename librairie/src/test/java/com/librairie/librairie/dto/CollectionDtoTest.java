@@ -53,31 +53,4 @@ class CollectionDtoTest {
     void setCategorie() {
         assertDoesNotThrow(() -> collectionDto.setCategorie("aze"));
     }
-
-    @Test
-    void testEquals() {
-        assertEquals(true, collectionDto.equals(collectionDto));
-    }
-
-    @Test
-    void canEqual() {
-        assertEquals(true, collectionDto.canEqual(collectionDto));
-    }
-
-    @Test
-    void testHashCode() {
-        CollectionDto collectionDtoBis = new CollectionDto(collectionDto.getNom(),collectionDto.getAuteur(),
-                                                           collectionDto.getCategorie());
-        assertEquals(collectionDtoBis.hashCode(), collectionDto.hashCode());
-    }
-
-    @Test
-    void testToString() {
-        assertEquals("CollectionDto(nom=NOM, auteur=AUTEUR, categorie=CAT)", collectionDto.toString());
-    }
-
-    @Test
-    void CollectionDto(){
-        assertDoesNotThrow((ThrowingSupplier<CollectionDto>) CollectionDto::new);
-    }
 }

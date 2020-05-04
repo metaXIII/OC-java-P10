@@ -132,26 +132,4 @@ class LivreTest {
     void setQuantite() {
         assertDoesNotThrow(() -> livre.setQuantite(1));
     }
-
-    @Test
-    void testEquals() {
-        assertEquals(true, livre.equals(livre));
-    }
-
-    @Test
-    void canEqual() {
-        assertEquals(true, livre.canEqual(livre));
-    }
-
-    @Test
-    void testHashCode() {
-        assertEquals(livre.hashCode(), livre.hashCode());
-    }
-
-    @Test
-    void testToString() {
-        String eq = "Livre(id=1, nom=NOM, auteur=AUTEUR, dateParution=" + livre.getDateParution() +
-                ", isbn=ISBN, categorie=CAT, maisonEdition=null, resume=RESUME, quantite=1)";
-        assertEquals(eq, livre.toString());
-    }
 }

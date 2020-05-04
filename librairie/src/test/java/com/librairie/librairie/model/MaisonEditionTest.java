@@ -53,24 +53,4 @@ class MaisonEditionTest {
     void setSiret() {
         assertDoesNotThrow(() -> maisonEdition.setSiret("test"));
     }
-
-    @Test
-    void testEquals() {
-        assertEquals(true, maisonEdition.equals(maisonEdition));
-    }
-
-    @Test
-    void canEqual() {
-        assertEquals(true, maisonEdition.canEqual(maisonEdition));
-    }
-
-    @Test
-    void testHashCode() {
-        assertEquals(maisonEdition.hashCode(), maisonEdition.hashCode());
-    }
-
-    @Test
-    void testToString() {
-        assertEquals("MaisonEdition(id=1, nom=NOM, siret=SIRET)", maisonEdition.toString());
-    }
 }
