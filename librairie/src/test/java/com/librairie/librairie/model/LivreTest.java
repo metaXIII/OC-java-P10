@@ -9,16 +9,12 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 class LivreTest {
 
     private Livre livre;
 
     private MaisonEdition maisonEdition;
-
-    private final String string = "aze";
 
     @BeforeEach
     public void init() {
@@ -109,7 +105,7 @@ class LivreTest {
 
     @Test
     void setDateParution() {
-        assertDoesNotThrow(() -> livre.setDateParution(any(Date.class)));
+        assertDoesNotThrow(() -> livre.setDateParution(new Date()));
     }
 
     @Test
@@ -134,7 +130,7 @@ class LivreTest {
 
     @Test
     void setQuantite() {
-        assertDoesNotThrow(() -> livre.setQuantite(anyInt()));
+        assertDoesNotThrow(() -> livre.setQuantite(1));
     }
 
     @Test

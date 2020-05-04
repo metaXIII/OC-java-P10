@@ -1,13 +1,11 @@
 package com.librairie.librairie.model;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MaisonEditionTest {
 
@@ -43,17 +41,17 @@ class MaisonEditionTest {
 
     @Test
     void setId() {
-        assertDoesNotThrow(() -> maisonEdition.setId(anyInt()));
+        assertDoesNotThrow(() -> maisonEdition.setId(1));
     }
 
     @Test
     void setNom() {
-        assertDoesNotThrow(() -> maisonEdition.setNom(anyString()));
+        assertDoesNotThrow(() -> maisonEdition.setNom("test"));
     }
 
     @Test
     void setSiret() {
-        assertDoesNotThrow(() -> maisonEdition.setSiret(anyString()));
+        assertDoesNotThrow(() -> maisonEdition.setSiret("test"));
     }
 
     @Test
