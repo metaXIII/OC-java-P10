@@ -51,8 +51,14 @@ class LibrarieServiceImplTest {
 
     @Test
     void shouldReturnConflictStatusWhenQuantiteIsNotEnoughForReserve() {
-        when(librairieRepository.findById(anyLong())).thenReturn(Optional.of(mockLivreWithBadQuantity()));
+        when(librairieRepository.findById(1L)).thenReturn(Optional.of(mockLivreWithBadQuantity()));
         assertEquals(409, librairieService.reserve("1").getStatusCodeValue());
+    }
+
+    @Test
+    void shouldReturnAcceptedStatusWhenReservationIsDone() {
+        when(librairieRepository.findById(1L)).thenReturn(Optional.of(mockLivre()));
+        assertEquals(202, librairieService.reserve("1").getStatusCodeValue());
     }
 
     private Livre mockLivre() {
