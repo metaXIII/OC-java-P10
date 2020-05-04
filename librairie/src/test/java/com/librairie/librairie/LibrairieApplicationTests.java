@@ -10,7 +10,7 @@ class LibrairieApplicationTests {
 
     @Test
     void contextLoads() {
-        assertTrue(true);
+        LibrairieApplication.main(new String[]{});
     }
 
 }
