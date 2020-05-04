@@ -9,13 +9,16 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 class LivreTest {
 
     private Livre livre;
 
     private MaisonEdition maisonEdition;
+
+    private final String string = "aze";
 
     @BeforeEach
     public void init() {
@@ -91,17 +94,17 @@ class LivreTest {
 
     @Test
     void setId() {
-        assertDoesNotThrow(() -> livre.setId(anyLong()));
+        assertDoesNotThrow(() -> livre.setId(1L));
     }
 
     @Test
     void setNom() {
-        assertDoesNotThrow(() -> livre.setNom(anyString()));
+        assertDoesNotThrow(() -> livre.setNom("aze"));
     }
 
     @Test
     void setAuteur() {
-        assertDoesNotThrow(() -> livre.setAuteur(anyString()));
+        assertDoesNotThrow(() -> livre.setAuteur("aze"));
     }
 
     @Test
@@ -111,22 +114,22 @@ class LivreTest {
 
     @Test
     void setIsbn() {
-        assertDoesNotThrow(() -> livre.setIsbn(anyString()));
+        assertDoesNotThrow(() -> livre.setIsbn("aze"));
     }
 
     @Test
     void setCategorie() {
-        assertDoesNotThrow(() -> livre.setCategorie(anyString()));
+        assertDoesNotThrow(() -> livre.setCategorie("aze"));
     }
 
     @Test
     void setMaisonEdition() {
-        assertDoesNotThrow(() -> livre.setMaisonEdition(any(MaisonEdition.class)));
+        assertDoesNotThrow(() -> livre.setMaisonEdition(maisonEdition));
     }
 
     @Test
     void setResume() {
-        assertDoesNotThrow(() -> livre.setResume(anyString()));
+        assertDoesNotThrow(() -> livre.setResume("aze"));
     }
 
     @Test
@@ -152,7 +155,7 @@ class LivreTest {
     @Test
     void testToString() {
         String eq = "Livre(id=1, nom=NOM, auteur=AUTEUR, dateParution=" + livre.getDateParution() +
-            ", isbn=ISBN, categorie=CAT, maisonEdition=null, resume=RESUME, quantite=1)";
+                ", isbn=ISBN, categorie=CAT, maisonEdition=null, resume=RESUME, quantite=1)";
         assertEquals(eq, livre.toString());
     }
 }
