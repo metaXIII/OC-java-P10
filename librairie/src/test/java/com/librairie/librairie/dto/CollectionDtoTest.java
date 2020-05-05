@@ -7,8 +7,6 @@ import org.junit.jupiter.api.function.ThrowingSupplier;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 
 class CollectionDtoTest {
 
@@ -52,5 +50,15 @@ class CollectionDtoTest {
     @Test
     void setCategorie() {
         assertDoesNotThrow(() -> collectionDto.setCategorie("aze"));
+    }
+
+    @Test
+    void Constructor() {
+        assertDoesNotThrow((ThrowingSupplier<CollectionDto>) CollectionDto::new);
+    }
+
+    @Test
+    void ConstructorWithArgs() {
+        assertDoesNotThrow(() -> new CollectionDto("", "", ""));
     }
 }
