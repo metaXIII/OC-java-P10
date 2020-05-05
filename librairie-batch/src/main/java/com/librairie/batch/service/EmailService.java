@@ -48,8 +48,8 @@ public class EmailService {
                     }
                 });
             });
-        } catch (RetryableException retryableException) {
-            log.error(retryableException.getMessage());
+        } catch (NullPointerException nullPointerException) {
+            log.error(nullPointerException.getMessage());
         }
     }
 
