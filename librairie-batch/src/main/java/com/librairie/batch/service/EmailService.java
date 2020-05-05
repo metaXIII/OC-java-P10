@@ -70,7 +70,7 @@ public class EmailService {
         this.mailSender.send(message);
     }
 
-    private String getList(String listId) {
+    protected String getList(String listId) {
         String        start         = "<li>";
         String        end           = "</li>";
         StringBuilder stringBuilder = new StringBuilder();
