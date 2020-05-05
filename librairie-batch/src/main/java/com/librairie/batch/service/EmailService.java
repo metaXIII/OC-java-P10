@@ -4,13 +4,11 @@ import com.librairie.batch.config.AppProperties;
 import com.librairie.batch.model.Livre;
 import com.librairie.batch.model.Reservation;
 import com.librairie.batch.model.User;
+import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
@@ -37,18 +35,22 @@ public class EmailService {
     }
 
     public void sendEmail() {
-        List<Reservation> reservations = mailService.getReservations().getBody();
-        reservations.forEach(reservation -> {
-            Optional<User> user = mailService.getUser(reservation.getUserId());
-            user.ifPresent(value -> {
-                try {
-                    sendEmail(reservation, value);
-                } catch (MessagingException e) {
-                    log.error("Une erreur est survenue ");
-                    log.error(e.getMessage());
-                }
+        try {
+            List<Reservation> reservations = mailService.getReservations().getBody();
+            reservations.forEach(reservation -> {
+                Optional<User> user = mailService.getUser(reservation.getUserId());
+                user.ifPresent(value -> {
+                    try {
+                        sendEmail(reservation, value);
+                    } catch (MessagingException e) {
+                        log.error("Une erreur est survenue ");
+                        log.error(e.getMessage());
+                    }
+                });
             });
-        });
+        } catch (RetryableException retryableException) {
+            log.error(retryableException.getMessage());
+        }
     }
 
     private void sendEmail(Reservation reservation, User user) throws MessagingException {
