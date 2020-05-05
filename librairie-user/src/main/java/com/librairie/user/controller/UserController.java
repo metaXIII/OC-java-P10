@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping(value = "/signIn")
     public ResponseEntity signIn(@RequestBody SignInDto signInDto) throws EmailExistsExceptionThrowable,
-            UsernameExistsExceptionThrowable {
+            UsernameExistsExceptionThrowable, Exception {
         User user = userService.signIn(signInDto);
         if (user == null)
             log.error("une erreur est survenue");
@@ -33,7 +33,13 @@ public class UserController {
 
     @GetMapping("info")
     public ResponseEntity info() {
-        return new ResponseEntity(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), HttpStatus.ACCEPTED);
+        try {
+            return new ResponseEntity(SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+                                      HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("me/{name}")
