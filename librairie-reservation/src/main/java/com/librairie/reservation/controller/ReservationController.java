@@ -5,6 +5,7 @@ import com.librairie.reservation.dto.ReservDto;
 import com.librairie.reservation.dto.ReservationDto;
 import com.librairie.reservation.model.Reservation;
 import com.librairie.reservation.service.IReservationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservation/")
+@Slf4j
 public class ReservationController {
 
     @Autowired
@@ -21,12 +23,22 @@ public class ReservationController {
 
     @PostMapping(value = "reserve", consumes = "application/json")
     public ResponseEntity reserve(@RequestBody ReservDto data) {
-        return new ResponseEntity<>(reservationService.reserve(data), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(reservationService.reserve(data), HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "reservations")
     public ResponseEntity reservations(@RequestBody UserBean user) {
-        return new ResponseEntity<>(reservationService.getReservations(user), HttpStatus.ACCEPTED);
+        try {
+            return new ResponseEntity<>(reservationService.getReservations(user), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("extend")

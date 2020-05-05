@@ -8,8 +8,7 @@ import com.librairie.reservation.model.Reservation;
 import com.librairie.reservation.proxies.GatewayProxy;
 import com.librairie.reservation.repositories.ReservationRepository;
 import com.librairie.reservation.service.IReservationService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @Transactional
 public class ReservationServiceImpl implements IReservationService {
-    private static final Logger logger = LogManager.getLogger(ReservationServiceImpl.class);
 
     @Autowired
     private GatewayProxy gatewayProxy;
@@ -35,24 +34,26 @@ public class ReservationServiceImpl implements IReservationService {
 
     @Override
     public ResponseEntity reserve(ReservDto data) {
-        Reservation        reservation   = new Reservation();
-        StringBuilder      stringBuilder = new StringBuilder();
-        Optional<UserBean> user          = gatewayProxy.getUser(data.getUser().get("username")).getBody();
-        if (Objects.requireNonNull(user).isPresent()) {
-            try {
-                for (LivreBean livre : data.getCollection()) {
-                    if (Objects.requireNonNull(gatewayProxy.checkStock(String.valueOf(livre.getId())).getBody()).isPresent())
-                        stringBuilder.append(stringBuilder.toString().isEmpty() ? "" : ",").append(livre.getId());
+        Reservation   reservation   = new Reservation();
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            Optional<UserBean> user = gatewayProxy.getUser(data.getUser().get("username")).getBody();
+            if (Objects.requireNonNull(user).isPresent()) {
+                try {
+                    for (LivreBean livre : data.getCollection()) {
+                        if (Objects.requireNonNull(gatewayProxy.checkStock(String.valueOf(livre.getId())).getBody()).isPresent())
+                            stringBuilder.append(stringBuilder.toString().isEmpty() ? "" : ",").append(livre.getId());
+                    }
+                    makeReservation(reservation, stringBuilder, user);
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
-                makeReservation(reservation, stringBuilder, user);
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.CREATED);
             }
-            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
-        if (logger.isErrorEnabled())
-            logger.error(String.format("user is not present%s", user));
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -69,9 +70,13 @@ public class ReservationServiceImpl implements IReservationService {
 
     @Override
     public List<Reservation> getReservations(UserBean userBean) {
-        Optional<UserBean> user = gatewayProxy.getUser(userBean.getUsername()).getBody();
-        if (Objects.requireNonNull(user).isPresent()) {
-            return reservationRepository.findAllByUserIdAndFinishedIsFalseOrderByIdDesc(user.get().getId());
+        try {
+            Optional<UserBean> user = gatewayProxy.getUser(userBean.getUsername()).getBody();
+            if (Objects.requireNonNull(user).isPresent()) {
+                return reservationRepository.findAllByUserIdAndFinishedIsFalseOrderByIdDesc(user.get().getId());
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
         return new ArrayList<>();
     }
