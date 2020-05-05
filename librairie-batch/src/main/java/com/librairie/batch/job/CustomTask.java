@@ -1,8 +1,7 @@
 package com.librairie.batch.job;
 
 import com.librairie.batch.service.EmailService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
@@ -13,8 +12,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class CustomTask implements Tasklet, StepExecutionListener {
-    private final Logger logger = LoggerFactory.getLogger(CustomTask.class);
 
     private final EmailService emailService;
 
@@ -24,24 +23,24 @@ public class CustomTask implements Tasklet, StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        logger.info("Début de l'envoi des mails.");
+        log.info("Début de l'envoi des mails.");
     }
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution,
                                 ChunkContext chunkContext) throws Exception {
         try {
+            log.info("Tache en cours ...");
             emailService.sendEmail();
-            logger.info("Tache en cours ...");
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return RepeatStatus.FINISHED;
     }
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        logger.info("Fin de l'envoi des mails.");
+        log.info("Fin de l'envoi des mails.");
         return ExitStatus.COMPLETED;
     }
 }
