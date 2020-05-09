@@ -5,15 +5,19 @@ import com.librairie.batch.model.Reservation;
 import com.librairie.batch.model.User;
 import com.librairie.batch.proxies.GatewayProxy;
 import com.librairie.batch.service.IMailService;
+import feign.RetryableException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @Transactional
 public class DetailServiceImpl implements IMailService {
     @Autowired
@@ -21,17 +25,31 @@ public class DetailServiceImpl implements IMailService {
 
     @Override
     public ResponseEntity<List<Reservation>> getReservations() {
-        return gatewayProxy.getInvalidReservations();
+        try {
+            return gatewayProxy.getInvalidReservations();
+        } catch (RetryableException retryableException) {
+            log.error(retryableException.getMessage());
+            return null;
+        }
     }
 
     @Override
     public Optional<User> getUser(long userId) {
-        return gatewayProxy.getUserWithId(userId);
+        try {
+            return gatewayProxy.getUserWithId(userId);
+        } catch (RetryableException retryableException) {
+            log.error(retryableException.getMessage());
+            return Optional.empty();
+        }
     }
 
     @Override
     public Livre getLivreById(long id) {
-        Optional<Livre> livre = gatewayProxy.getLivreById(id).getBody();
-        return livre.orElse(new Livre());
+        try {
+            return Objects.requireNonNull(gatewayProxy.getLivreById(id).getBody()).orElse(new Livre());
+        } catch (RetryableException retryableException) {
+            log.error(retryableException.getMessage());
+        }
+        return null;
     }
 }

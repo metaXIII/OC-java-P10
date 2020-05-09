@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface IUserService {
     Optional<User> findbyUsername(String username);
 
-    User signIn(SignInDto signInDto) throws EmailExistsExceptionThrowable, UsernameExistsExceptionThrowable;
+    User signIn(SignInDto signInDto) throws EmailExistsExceptionThrowable, UsernameExistsExceptionThrowable, Exception;
 
     boolean emailExist(String email);
 

@@ -34,13 +34,17 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User signIn(SignInDto signInDto) throws EmailExistsExceptionThrowable, UsernameExistsExceptionThrowable {
+    public User signIn(SignInDto signInDto) throws EmailExistsExceptionThrowable, UsernameExistsExceptionThrowable,
+            Exception {
         if (emailExist(signInDto.getEmail())) {
             logger.error("email deja présent");
             throw new EmailExistsExceptionThrowable("L'email existe déjà !!!");
         } else if (usernameExist(signInDto.getUsername())) {
             logger.error("username déjà présent");
             throw new UsernameExistsExceptionThrowable("Le nom d'utilisateur est déjà pris");
+        } else if (signInDto.getEmail().isEmpty() || signInDto.getUsername().isEmpty() || signInDto.getPassword().isEmpty()) {
+            logger.error("Informations incomplètes");
+            throw new Exception("Impossible de récupérer toutes les informations de l'utilsateur");
         } else {
             User user = new User();
             user.setUsername(signInDto.getUsername());
@@ -63,7 +67,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> {
                     logger.error(String.format("user not found : %s", username));
-                    return new UsernameNotFoundException("Il n'existe pas d'utilisateurs avec le nom " + "d'utilisateur " + username);
+                    return new UsernameNotFoundException("Il n'existe pas d'utilisateurs avec le nom " + "d" +
+                                                                 "'utilisateur " + username);
                 });
     }
 

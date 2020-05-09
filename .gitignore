@@ -8,3 +8,7 @@ librairie-batch/src/main/java/com/librairie/batch/constants/MyConstants.java
 ./logs/
 
 **.log
+
+**/target/**
+target/**
+**.iml

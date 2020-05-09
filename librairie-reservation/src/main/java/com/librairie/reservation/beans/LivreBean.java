@@ -1,10 +1,12 @@
 package com.librairie.reservation.beans;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 public class LivreBean {
     private long id;
 
