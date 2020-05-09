@@ -84,6 +84,7 @@ public class ReservationServiceImpl implements IReservationService {
     @Override
     public HttpStatus extendReservation(ReservationDto reservationDto) {
         Optional<Reservation> reservation = reservationRepository.findById(reservationDto.getId());
+        //BugFixe
         if (reservation.isPresent() && !reservation.get().isExtended()) {
             reservation.get().setExtended(true);
             reservation.get().setDateLimite(reservation.get().getDateLimite().plusWeeks(4));
