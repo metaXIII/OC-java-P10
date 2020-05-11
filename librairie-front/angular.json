@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "librairie-front"
+  "defaultProject": "librairie-front",
+  "cli": {
+    "analytics": "924b5d12-39f8-4457-b691-653b80b5d9c4"
+  }
 }
