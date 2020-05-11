@@ -15,4 +15,7 @@ public interface GatewayProxy {
 
     @GetMapping("/api/user/me/{username}")
     ResponseEntity<Optional<UserBean>> getUser(@PathVariable("username") String username);
+
+    @GetMapping("/api/librairie/getStock/{id}")
+    ResponseEntity<Integer> getMaxQuantityForBook(@PathVariable("id") long id);
 }

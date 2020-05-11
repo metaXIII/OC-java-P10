@@ -23,4 +23,6 @@ public class LivreBean {
     private String resume;
 
     private int quantite;
+
+    private int maxQuantite;
 }

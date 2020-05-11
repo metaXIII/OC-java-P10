@@ -5,8 +5,10 @@ import com.librairie.reservation.beans.UserBean;
 import com.librairie.reservation.dto.ReservDto;
 import com.librairie.reservation.dto.ReservationDto;
 import com.librairie.reservation.model.Reservation;
+import com.librairie.reservation.model.Waiting;
 import com.librairie.reservation.proxies.GatewayProxy;
 import com.librairie.reservation.repositories.ReservationRepository;
+import com.librairie.reservation.repositories.WaitingRepository;
 import com.librairie.reservation.service.IReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,4 +119,6 @@ public class ReservationServiceImpl implements IReservationService {
             }
         });
     }
+
+
 }

@@ -23,6 +23,7 @@ class LivreBeanTest {
         livreBean.setCategorie("cat");
         livreBean.setResume("resume");
         livreBean.setQuantite(1);
+        livreBean.setMaxQuantite(10);
     }
 
     @AfterEach
@@ -108,5 +109,15 @@ class LivreBeanTest {
     @Test
     void getQuantite() {
         assertEquals(1, livreBean.getQuantite());
+    }
+
+    @Test
+    void getMaxQuantite() {
+        assertEquals(10, livreBean.getMaxQuantite());
+    }
+
+    @Test
+    void setMaxQuantite() {
+        assertDoesNotThrow(() -> livreBean.setMaxQuantite(1));
     }
 }
