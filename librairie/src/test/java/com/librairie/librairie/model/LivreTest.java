@@ -28,6 +28,7 @@ class LivreTest {
         livre.setMaisonEdition(maisonEdition);
         livre.setResume("RESUME");
         livre.setQuantite(1);
+        livre.setMaxQuantite(10);
     }
 
     @AfterEach
@@ -131,5 +132,15 @@ class LivreTest {
     @Test
     void setQuantite() {
         assertDoesNotThrow(() -> livre.setQuantite(1));
+    }
+
+    @Test
+    void getMaxQuantite() {
+        assertEquals(10, livre.getMaxQuantite());
+    }
+
+    @Test
+    void setMaxQuantite() {
+        assertDoesNotThrow(() -> livre.setMaxQuantite(1));
     }
 }

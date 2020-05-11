@@ -15,7 +15,7 @@ public class Waiting {
     private long id;
 
     @Column(name = "LIVREID")
-    private String livreId;
+    private int livreId;
 
     @Column(name = "USERID")
     private long userId;
