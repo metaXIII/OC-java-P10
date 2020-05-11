@@ -1,0 +1,1 @@
+INSERT INTO USER (ID, EMAIL, PASSWORD, USERNAME) values (1, 'aze@aze', '$2a$10$eNy6mdfp9FP/9jp.JHHdZu/uwH2ZE.sivE1m6GuQaTNzXp0zANjya', 'aze');
