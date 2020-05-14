@@ -7,5 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WaitingRepository extends JpaRepository<Waiting, Long> {
-    Optional<List<Waiting>> findAllByLivreId(long id);
+    Optional<List<Waiting>> findAllByLivreIdAndFinishedIsFalseAndProgressIsFalseOrderByDateReservation(long id);
+
+    Optional<List<Waiting>> findAllByLivreIdAndFinishedIsFalseAndProgressIsTrueOrderByDateReservation(long id);
+
+
+    Optional<Waiting> findByLivreIdAndUserIdAndFinishedIsFalse(long livreId, long userId);
+
+    List<Waiting> findAllByDateNotificationIsNotNullAndFinishedIsFalse();
+
+    Optional<Waiting> findByUserIdAndLivreId(long userId, long livreId);
 }

@@ -5,6 +5,7 @@ import com.librairie.reservation.dto.ReservDto;
 import com.librairie.reservation.dto.ReservationDto;
 import com.librairie.reservation.dto.WaitDto;
 import com.librairie.reservation.model.Reservation;
+import com.librairie.reservation.model.Waiting;
 import com.librairie.reservation.service.IReservationService;
 import com.librairie.reservation.service.IWaitingService;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +60,15 @@ public class ReservationController {
     @PostMapping(value = "waiting", consumes = "application/json")
     public ResponseEntity addToWaitList(@RequestBody WaitDto waitDto) {
         return new ResponseEntity(waitingService.insertWaitingForLivreId(waitDto), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("getAllWait")
+    public ResponseEntity<List<Waiting>> NotificationsList() {
+        return new ResponseEntity<>(waitingService.getAllWaitForNotification(), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("updateWait/{id}")
+    public ResponseEntity updateWait(@PathVariable("id") Long id) {
+        return waitingService.updateWait(id);
     }
 }

@@ -36,7 +36,7 @@ public class WaitingServiceImpl implements IWaitingService {
 
     @Override
     public Optional<List<Waiting>> getListOfWaitingByLivreId(long id) {
-        return waitingRepository.findAllByLivreId(1);
+        return waitingRepository.findAllByLivreIdAndFinishedIsFalseAndProgressIsFalseOrderByDateReservation(1);
     }
 
     @Override
@@ -80,17 +80,58 @@ public class WaitingServiceImpl implements IWaitingService {
                 }
             }
         }
-        return true;
+        Optional<Waiting> waiting = waitingRepository.findByUserIdAndLivreId(user.getId(), data.getLivreId());
+        return waiting.isEmpty();
     }
 
     private void insertWaiting(long id, long userId) {
         Waiting waiting = new Waiting();
-        waiting.setId(1);
         waiting.setLivreId(id);
         waiting.setUserId(userId);
         waiting.setDateReservation(LocalDate.now());
-        waiting.setDateLimite(LocalDate.now().plusDays(2));
+        waiting.setDateNotification(null);
         waiting.setFinished(false);
+        waiting.setProgress(false);
         waitingRepository.save(waiting);
     }
+
+    @Override
+    public void updateWaitingList(Reservation reservation) {
+        Optional<Waiting> wait;
+        String[]          reservationIds = reservation.getLivreId().split(",");
+        for (String element : reservationIds) {
+            wait = waitingRepository.findByLivreIdAndUserIdAndFinishedIsFalse(Long.parseLong(element),
+                                                                              reservation.getUserId());
+            if (wait.isPresent()) {
+                wait.get().setFinished(true);
+                waitingRepository.save(wait.get());
+            }
+        }
+    }
+
+    @Override
+    public List<Waiting> getAllWaitForNotification() {
+        return waitingRepository.findAllByDateNotificationIsNotNullAndFinishedIsFalse();
+    }
+
+    @Override
+    public ResponseEntity updateWait(Long id) {
+        Optional<Waiting> control = waitingRepository.findById(id);
+        control.ifPresent(el -> {
+            if (!el.isFinished() && LocalDate.now().isAfter(el.getDateNotification().plusDays(2))) {
+                el.setFinished(true);
+                Optional<List<Waiting>> waitingList = waitingRepository.findAllByLivreIdAndFinishedIsFalseAndProgressIsFalseOrderByDateReservation(el.getLivreId());
+                waitingList.ifPresent(list -> {
+                    Waiting waiting = list.get(0);
+                    waiting.setProgress(true);
+                    waiting.setDateNotification(LocalDate.now());
+                    waitingRepository.save(waiting);
+                });
+            }
+            waitingRepository.save(el);
+        });
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+
 }

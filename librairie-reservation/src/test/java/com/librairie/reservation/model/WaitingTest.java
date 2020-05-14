@@ -19,7 +19,7 @@ class WaitingTest {
         waiting = new Waiting();
         waiting.setId(1);
         waiting.setUserId(1);
-        waiting.setDateLimite(LocalDate.now());
+        waiting.setDateNotification(LocalDate.now());
         waiting.setDateReservation(LocalDate.now());
         waiting.setFinished(true);
         waiting.setLivreId(1);
@@ -52,7 +52,7 @@ class WaitingTest {
 
     @Test
     void getDateLimite() {
-        assertNotNull(waiting.getDateLimite());
+        assertNotNull(waiting.getDateNotification());
     }
 
     @Test
@@ -82,7 +82,7 @@ class WaitingTest {
 
     @Test
     void setDateLimite() {
-        assertDoesNotThrow(() -> waiting.setDateLimite(LocalDate.now()));
+        assertDoesNotThrow(() -> waiting.setDateNotification(LocalDate.now()));
     }
 
     @Test

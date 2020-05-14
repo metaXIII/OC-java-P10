@@ -23,8 +23,10 @@ public class Waiting {
     @Column(name = "DATERESERVATION")
     private LocalDate dateReservation;
 
-    @Column(name = "DATELIMITE")
-    private LocalDate dateLimite;
+    @Column(name = "DATENOTIFICATION")
+    private LocalDate dateNotification;
 
     private boolean finished;
+
+    private boolean progress;
 }

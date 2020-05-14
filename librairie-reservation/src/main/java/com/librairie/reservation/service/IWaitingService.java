@@ -1,6 +1,7 @@
 package com.librairie.reservation.service;
 
 import com.librairie.reservation.dto.WaitDto;
+import com.librairie.reservation.model.Reservation;
 import com.librairie.reservation.model.Waiting;
 import org.springframework.http.ResponseEntity;
 
@@ -11,4 +12,10 @@ public interface IWaitingService {
     Optional<List<Waiting>> getListOfWaitingByLivreId(long id);
 
     ResponseEntity<Boolean> insertWaitingForLivreId(WaitDto data);
+
+    void updateWaitingList(Reservation reservation);
+
+    List<Waiting> getAllWaitForNotification();
+
+    ResponseEntity updateWait(Long id);
 }
