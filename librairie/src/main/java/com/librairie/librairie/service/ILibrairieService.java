@@ -15,4 +15,6 @@ public interface ILibrairieService {
     ResponseEntity<Optional<Livre>> findById(long id);
 
     ResponseEntity<Boolean> reserve(String id);
+
+    ResponseEntity<Integer> getStock(String id);
 }

@@ -1,5 +1,6 @@
 package com.librairie.reservation.impl;
 
+import com.librairie.reservation.dto.WaitDto;
 import com.librairie.reservation.repositories.WaitingRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,6 @@ class WaitingServiceImplTest {
 
     @Test
     void insertWaitingforLivreId() {
-        assertDoesNotThrow(() -> waitingService.insertWaitingforLivreId(1, 1));
+        assertDoesNotThrow(() -> waitingService.insertWaitingForLivreId(new WaitDto()));
     }
 }

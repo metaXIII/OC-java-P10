@@ -33,4 +33,9 @@ public class LibrairieController {
     public ResponseEntity<Boolean> reserve(@PathVariable("id") String id) {
         return librairieService.reserve(id);
     }
+
+    @GetMapping("/getStock/{id}")
+    public ResponseEntity<Integer> getStock(@PathVariable("id") String id) {
+        return librairieService.getStock(id);
+    }
 }

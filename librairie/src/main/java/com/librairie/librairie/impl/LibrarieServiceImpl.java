@@ -47,8 +47,17 @@ public class LibrarieServiceImpl implements ILibrairieService {
             librairieRepository.save(livre.get());
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
-        if (log.isErrorEnabled())
-            log.error(String.format("Le livre n'a pas été trouvé avec l'id %s", id));
+        log.error(String.format("Le livre n'a pas été trouvé avec l'id %s", id));
         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<Integer> getStock(String id) {
+        Optional<Livre> livre = librairieRepository.findById(Long.parseLong(id));
+        if (livre.isPresent())
+            return new ResponseEntity<>(livre.get().getMaxQuantite(), HttpStatus.ACCEPTED);
+        else
+            log.error(String.format("Le livre n'a pas été trouvé avec l'id %s", id));
+        return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
     }
 }
