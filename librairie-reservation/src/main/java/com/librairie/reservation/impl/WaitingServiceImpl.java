@@ -43,7 +43,7 @@ public class WaitingServiceImpl implements IWaitingService {
     @Override
     public ResponseEntity getListOfWaitingByLivreIdWithNoProgress(long id) {
         List<Waiting> waitingList = new ArrayList<>();
-        if (waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).isPresent()){
+        if (waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).isPresent()) {
             waitingList = waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).get();
         }
         return new ResponseEntity(waitingList, HttpStatus.ACCEPTED);
@@ -130,7 +130,8 @@ public class WaitingServiceImpl implements IWaitingService {
         control.ifPresent(el -> {
             if (!el.isFinished() && LocalDate.now().isAfter(el.getDateNotification().plusDays(2))) {
                 el.setFinished(true);
-                Optional<List<Waiting>> waitingList = waitingRepository.findAllByLivreIdAndFinishedIsFalseAndProgressIsFalseOrderByDateReservation(el.getLivreId());
+                Optional<List<Waiting>> waitingList =
+                        waitingRepository.findAllByLivreIdAndFinishedIsFalseAndProgressIsFalseOrderByDateReservation(el.getLivreId());
                 waitingList.ifPresent(list -> {
                     Waiting waiting = list.get(0);
                     waiting.setProgress(true);
@@ -143,5 +144,11 @@ public class WaitingServiceImpl implements IWaitingService {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-
+    @Override
+    public ResponseEntity getListOfWaitingByUserId(UserBean userBean) {
+        ResponseEntity<Optional<UserBean>> control = gatewayProxy.getUser(userBean.getUsername());
+        if (control.getBody().isPresent())
+            return new ResponseEntity(waitingRepository.findAllByUserIdAndFinishedIsFalseOrderByDateReservation(userBean.getId()), HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
 }

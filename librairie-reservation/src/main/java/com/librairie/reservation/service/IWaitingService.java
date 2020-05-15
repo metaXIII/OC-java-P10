@@ -1,8 +1,10 @@
 package com.librairie.reservation.service;
 
+import com.librairie.reservation.beans.UserBean;
 import com.librairie.reservation.dto.WaitDto;
 import com.librairie.reservation.model.Reservation;
 import com.librairie.reservation.model.Waiting;
+import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -20,4 +22,6 @@ public interface IWaitingService {
     List<Waiting> getAllWaitForNotification();
 
     ResponseEntity updateWait(Long id);
+
+    ResponseEntity getListOfWaitingByUserId(UserBean userBean);
 }

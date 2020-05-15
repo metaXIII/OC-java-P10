@@ -45,7 +45,6 @@ export class LibrairieComponent implements OnInit {
     if (this.waitingList[id]) {
       if (this.waitingList[id][0]) {
         dateRetour = this.reservationService.addDays(this.waitingList[id][0].dateNotification, 2)
-        console.log(dateRetour)
       }
     }
     return dateRetour === null ? "Aucun retour prévu" : dateRetour.toLocaleDateString();

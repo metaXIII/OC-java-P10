@@ -1,3 +1,22 @@
 <app-account></app-account>
 <p>waiting works!</p>
 
+<div class="alert alert-danger" *ngIf="empty">Il n'existe aucune réservation pour cet utilisateur</div>
+<div class="alert alert-danger" *ngIf="error">Une erreur s'est produite lors de la demande, merci de réessayer plus
+  tard
+</div>
+<div class="row">
+  <div class="card col-10 offset-1 mb-2" *ngFor="let wait of waiting, let i = index">
+    <div class="card-body row">
+      <div class="col-8">
+        <h5 class="card-title">Liste d'attente n°{{wait.id}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Liste du(des) livre(s) réservé(s) : </h6>
+        <div class="card-text" *ngFor="let livre of collection">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

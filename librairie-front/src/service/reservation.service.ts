@@ -58,12 +58,12 @@ export class ReservationService {
 
   getAllWaitByLivreId = (id: number) => {
     return this.httpClient.get('/service/reservation/getWaitForLivreId/' + id)
-}
+  }
 
   addToWaiting = (livre: Livre) => {
     const data: any = {
       livreId: livre.id,
-      user : this.userService.getUser()
+      user   : this.userService.getUser()
     }
     return this.httpClient.post('/service/reservation/waiting', data);
   }
@@ -72,5 +72,9 @@ export class ReservationService {
     let result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+
+  getAllWaitByUserId = () => {
+    return this.httpClient.post("/service/reservation/getAllWaitForUser", this.userService.getUser())
   }
 }

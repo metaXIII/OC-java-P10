@@ -77,4 +77,9 @@ public class ReservationController {
         return waitingService.getListOfWaitingByLivreIdWithNoProgress(id);
     }
 
+
+    @PostMapping("getAllWaitForUser")
+    public ResponseEntity getListOfWaitingByUserId(@RequestBody UserBean userBean) {
+        return waitingService.getListOfWaitingByUserId(userBean);
+    }
 }
