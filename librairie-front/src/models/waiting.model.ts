@@ -1,6 +1,6 @@
 export class WaitingModel {
   constructor(public id: number,
-              public livreId: number,
+              public livreId: any,
               public userId: number,
               public dateReservation: Date,
               public dateNotification: Date,

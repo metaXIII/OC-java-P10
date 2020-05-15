@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WaitingModel} from "../../models/waiting.model"
 import {Livre} from "../../models/livre.model"
 import {ReservationService} from "../../service/reservation.service"
 import {LibrairieService} from "../../service/librairie.service"
 
 @Component({
-  selector: 'app-waiting',
+  selector   : 'app-waiting',
   templateUrl: './waiting.component.html',
-  styleUrls: ['./waiting.component.scss']
+  styleUrls  : ['./waiting.component.scss']
 })
 export class WaitingComponent implements OnInit {
   empty: boolean
@@ -15,7 +15,8 @@ export class WaitingComponent implements OnInit {
   waiting: [WaitingModel]
   collection: Livre
 
-  constructor(private reservationService: ReservationService, private librairieService: LibrairieService) {}
+  constructor(private reservationService: ReservationService, private librairieService: LibrairieService) {
+  }
 
   ngOnInit() {
     this.init()
@@ -25,7 +26,12 @@ export class WaitingComponent implements OnInit {
     this.error = true
     this.empty = true
     this.reservationService.getAllWaitByUserId().subscribe((resp: [WaitingModel]) => {
-      console.log(resp)
+      resp.forEach(x => {
+        this.librairieService.findById(String(x.livreId)).subscribe((resp : Livre) => {
+         x.livreId = resp.nom
+        })
+      })
+      this.waiting = resp
     }, error => {
       console.log(error)
     })
