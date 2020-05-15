@@ -1,4 +1,5 @@
 <app-account></app-account>
+<div class="alert alert-danger" *ngIf="error">{{message}}</div>
 <form method="post" [formGroup]="searchForm" (ngSubmit)="Submit()">
   <div class="form-group">
     <label for="nom">Nom :</label>
@@ -24,7 +25,8 @@
 <div class="container" *ngIf="collection">
   <hr class="hr">
   <div class="row">
-    <div class="card col-lg-3 col-md-5 offset-lg-1 offset-md-1 col-10 offset-1 mb-2" *ngFor="let livre of collection">
+    <div class="card col-lg-3 col-md-5 offset-lg-1 offset-md-1 col-10 offset-1 mb-2"
+         *ngFor="let livre of collection; index as i">
       <div class="card-body">
         <h5 class="card-title"><a href="/detail/{{livre.id}}">{{livre.nom}}</a></h5>
         <h6 class="card-subtitle mb-2 text-muted">{{livre.auteur}}</h6>
@@ -33,8 +35,16 @@
         <p class="card-text">{{livre.maisonEdition.nom}}</p>
         <p class="card-text">{{livre.quantite}} exemplaires restants</p>
         <div class="mb-0 text-right">
-          <button class="btn btn-primary" *ngIf="livre.quantite > 0" (click)="addToPanier(livre)">Ajouter au panier</button>
+          <button class="btn btn-primary" *ngIf="livre.quantite > 0" (click)="addToPanier(livre)">Ajouter au panier
+          </button>
         </div>
+      </div>
+      <div class="bg-danger text-white" *ngIf="isAllowed(i)">
+        Ce livre est actuellement sur liste d'attente <br>
+        Date de retour la plus proche : {{getDate(livre.id)}}
+        <button class="btn btn-primary" *ngIf="isAllowed(i)" (click)="addToWaiting(livre)">
+          Ajouter à la liste d'attente
+        </button>
       </div>
     </div>
   </div>

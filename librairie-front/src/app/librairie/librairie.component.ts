@@ -11,11 +11,10 @@ import {WaitingModel} from "../../models/waiting.model"
 })
 export class LibrairieComponent implements OnInit {
   private collection: [Livre]
-  private error: boolean  = false
   private backup          = []
   private waitingList     = []
+  private error: boolean  = false
   private message: string = " Une erreur est survenue, veuillez réessayer plus tard !"
-  private dateRetour      = []
 
   constructor(private librairieService: LibrairieService, private reservationService: ReservationService) {
   }
