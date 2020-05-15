@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,6 +41,15 @@ public class WaitingServiceImpl implements IWaitingService {
     }
 
     @Override
+    public ResponseEntity getListOfWaitingByLivreIdWithNoProgress(long id) {
+        List<Waiting> waitingList = new ArrayList<>();
+        if (waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).isPresent()){
+            waitingList = waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).get();
+        }
+        return new ResponseEntity(waitingList, HttpStatus.ACCEPTED);
+    }
+
+    @Override
     public ResponseEntity insertWaitingForLivreId(WaitDto data) {
         try {
             //Déclaration variables
@@ -57,7 +67,7 @@ public class WaitingServiceImpl implements IWaitingService {
                     }
                     if (this.getListOfWaitingByLivreId(data.getLivreId()).isPresent())
                         tab = this.getListOfWaitingByLivreId(data.getLivreId()).get().size();
-                    if (tab < stock) {
+                    if (tab < stock * 2) {
                         this.insertWaiting(data.getLivreId(), user.get().getId());
                         return new ResponseEntity<>(HttpStatus.ACCEPTED);
                     }

@@ -55,4 +55,22 @@ export class ReservationService {
   extend = (reservation: Reservation) => {
     return this.httpClient.put('/service/reservation/extend', reservation);
   }
+
+  getAllWaitByLivreId = (id: number) => {
+    return this.httpClient.get('/service/reservation/getWaitForLivreId/' + id)
+}
+
+  addToWaiting = (livre: Livre) => {
+    const data: any = {
+      livreId: livre.id,
+      user : this.userService.getUser()
+    }
+    return this.httpClient.post('/service/reservation/waiting', data);
+  }
+
+  addDays(date, days) {
+    let result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
 }

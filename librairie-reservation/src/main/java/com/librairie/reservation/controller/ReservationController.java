@@ -71,4 +71,10 @@ public class ReservationController {
     public ResponseEntity updateWait(@PathVariable("id") Long id) {
         return waitingService.updateWait(id);
     }
+
+    @GetMapping("getWaitForLivreId/{id}")
+    public ResponseEntity getListOfWaitingByLivreIdWithNoProgress(@PathVariable("id") Long id) {
+        return waitingService.getListOfWaitingByLivreIdWithNoProgress(id);
+    }
+
 }

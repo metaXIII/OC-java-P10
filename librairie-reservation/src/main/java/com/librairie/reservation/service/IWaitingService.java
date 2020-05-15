@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface IWaitingService {
     Optional<List<Waiting>> getListOfWaitingByLivreId(long id);
 
+    ResponseEntity getListOfWaitingByLivreIdWithNoProgress(long id);
+
     ResponseEntity<Boolean> insertWaitingForLivreId(WaitDto data);
 
     void updateWaitingList(Reservation reservation);

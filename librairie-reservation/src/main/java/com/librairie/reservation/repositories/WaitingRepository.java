@@ -11,6 +11,7 @@ public interface WaitingRepository extends JpaRepository<Waiting, Long> {
 
     Optional<List<Waiting>> findAllByLivreIdAndFinishedIsFalseAndProgressIsTrueOrderByDateReservation(long id);
 
+    Optional<List<Waiting>> findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(long id);
 
     Optional<Waiting> findByLivreIdAndUserIdAndFinishedIsFalse(long livreId, long userId);
 
