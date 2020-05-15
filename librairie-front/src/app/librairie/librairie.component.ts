@@ -72,7 +72,7 @@ export class LibrairieComponent implements OnInit {
 
   private addToPanier(livre: Livre) {
     let quantity = this.reservationService.collection.filter(x => x.id == livre.id).length
-    if (quantity == livre.quantite) {
+    if (quantity == livre.quantite && livre.quantite == 0) {
       livre.quantite = 0
     } else {
       livre.quantite--

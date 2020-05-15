@@ -20,9 +20,9 @@ INSERT INTO LIVRE(ID, NOM, AUTEUR, DATEPARUTION, ISBN, CATEGORIE, MAISONEDITION,
 VALUES (4, 'Percy Jackson à l''école des souris', 'AUTEUR TEST4', CURRENT_DATE(), 'ISBN TEST4', 'MANGA', 1,
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus alias autem commodi
 eligendi enim error impedit iste labore neque nobis nostrum odit perspiciatis, quisquam quod repellat rerum, temporibus vitae?',
-        15, 10);
+        15, 15);
 INSERT INTO LIVRE(ID, NOM, AUTEUR, DATEPARUTION, ISBN, CATEGORIE, MAISONEDITION, RESUME, QUANTITE, MAXQUANTITE)
 VALUES (5, 'Da Vinci Code', 'AUTEUR TEST5', CURRENT_DATE(), 'ISBN TEST5', 'HORREUR', 1,
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus alias autem commodi
 eligendi enim error impedit iste labore neque nobis nostrum odit perspiciatis, quisquam quod repellat rerum, temporibus vitae?',
-        20, 10);
+        20, 20);
