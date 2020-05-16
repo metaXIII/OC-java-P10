@@ -1,12 +1,11 @@
 package com.librairie.reservation.dto;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,6 +19,11 @@ class ReservDtoTest {
         reservDto = new ReservDto();
         reservDto.setCollection(new ArrayList<>());
         reservDto.setUser(new HashMap<>());
+    }
+
+    @AfterEach
+    public void end() {
+        reservDto = null;
     }
 
     @Test

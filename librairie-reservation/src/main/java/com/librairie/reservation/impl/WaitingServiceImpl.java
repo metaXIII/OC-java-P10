@@ -146,9 +146,13 @@ public class WaitingServiceImpl implements IWaitingService {
 
     @Override
     public ResponseEntity getListOfWaitingByUserId(UserBean userBean) {
-        ResponseEntity<Optional<UserBean>> control = gatewayProxy.getUser(userBean.getUsername());
-        if (control.getBody().isPresent())
-            return new ResponseEntity(waitingRepository.findAllByUserIdAndFinishedIsFalseOrderByDateReservation(userBean.getId()), HttpStatus.ACCEPTED);
+        try {
+            ResponseEntity<Optional<UserBean>> control = gatewayProxy.getUser(userBean.getUsername());
+            if (control.getBody().isPresent())
+                return new ResponseEntity(waitingRepository.findAllByUserIdAndFinishedIsFalseOrderByDateReservation(userBean.getId()), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 

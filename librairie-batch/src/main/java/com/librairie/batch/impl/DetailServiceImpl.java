@@ -49,7 +49,7 @@ public class DetailServiceImpl implements IMailService {
     public Livre getLivreById(long id) {
         try {
             return Objects.requireNonNull(gatewayProxy.getLivreById(id).getBody()).orElse(new Livre());
-        } catch (RetryableException retryableException) {
+        } catch (Exception retryableException) {
             log.error(retryableException.getMessage());
         }
         return null;
