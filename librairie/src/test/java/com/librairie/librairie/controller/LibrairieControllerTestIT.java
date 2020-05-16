@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -23,7 +22,7 @@ class LibrairieControllerTestIT {
 
     @BeforeAll
     public static void init() {
-        collectionDto = new CollectionDto("Harry potter à l'école des sorciers","AUTEUR TEST","EROTIQUE");
+        collectionDto = new CollectionDto("Harry potter à l'école des sorciers", "AUTEUR TEST", "EROTIQUE");
     }
 
     @Test
@@ -47,5 +46,16 @@ class LibrairieControllerTestIT {
     @Test
     void reserve() {
         assertEquals(202, librairieController.reserve(String.valueOf(1)).getStatusCodeValue());
+    }
+
+    @Test
+    void getStock() {
+        assertEquals(202, librairieController.getStock("1").getStatusCodeValue());
+    }
+
+    @Test
+    void getStockWithNoExistingId() {
+        assertThrows(NumberFormatException.class,
+                     () -> librairieController.getStock("aze").getStatusCodeValue());
     }
 }
