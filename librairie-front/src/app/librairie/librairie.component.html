@@ -19,6 +19,8 @@
       <div class="bg-danger text-white" *ngIf="isAllowed(i)">
         Ce livre est actuellement sur liste d'attente <br>
         Date de retour la plus proche : {{getDate(livre.id)}}
+        <br>
+        Nombre de personnes ayant réservés l'ouvrage : {{getNombrePersonne(livre.id)}}
         <button class="btn btn-primary" *ngIf="isAllowed(i)" (click)="addToWaiting(livre)">
           Ajouter à la liste d'attente
         </button>

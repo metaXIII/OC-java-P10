@@ -1,2 +1,3 @@
 INSERT INTO USER (EMAIL, PASSWORD, USERNAME) values ('aze@aze', '$2a$10$eNy6mdfp9FP/9jp.JHHdZu/uwH2ZE.sivE1m6GuQaTNzXp0zANjya', 'aze');
 INSERT INTO USER (EMAIL, PASSWORD, USERNAME) values ('test@test', '$2a$10$eNy6mdfp9FP/9jp.JHHdZu/uwH2ZE.sivE1m6GuQaTNzXp0zANjya', 'test');
+INSERT INTO USER (EMAIL, PASSWORD, USERNAME) values ('aze@aze', '$2a$10$eNy6mdfp9FP/9jp.JHHdZu/uwH2ZE.sivE1m6GuQaTNzXp0zANjya', 'azer');

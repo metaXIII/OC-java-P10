@@ -34,7 +34,6 @@ export class WaitingComponent implements OnInit {
         })
         resp.forEach(x => {
           this.reservationService.getPosition(x.id).subscribe((resp: any) => {
-            console.log(resp)
             x.position = resp
           }, error => {
             console.log(error)

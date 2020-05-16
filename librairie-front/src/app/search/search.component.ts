@@ -90,6 +90,6 @@ export class SearchComponent implements OnInit {
         console.log(dateRetour)
       }
     }
-    return dateRetour === null ? "Aucun retour prévu" : dateRetour.toLocaleDateString();
+    return dateRetour === null ? "Aucune date de retour prévu" : dateRetour.toLocaleDateString();
   }
 }

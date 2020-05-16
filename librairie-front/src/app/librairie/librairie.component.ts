@@ -47,7 +47,7 @@ export class LibrairieComponent implements OnInit {
         dateRetour = this.reservationService.addDays(this.waitingList[id][0].dateNotification, 2)
       }
     }
-    return dateRetour === null ? "Aucun retour prévu" : dateRetour.toLocaleDateString();
+    return dateRetour === null ? "Aucune date de retour prévu" : dateRetour.toLocaleDateString();
   }
 
   private init() {
@@ -78,4 +78,9 @@ export class LibrairieComponent implements OnInit {
     }
   }
 
+  getNombrePersonne(id: number) {
+    if (this.waitingList[id])
+      return this.waitingList[id].length
+    return 0;
+  }
 }
