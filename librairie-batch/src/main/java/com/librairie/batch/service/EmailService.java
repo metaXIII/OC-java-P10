@@ -4,7 +4,7 @@ import com.librairie.batch.config.AppProperties;
 import com.librairie.batch.model.Livre;
 import com.librairie.batch.model.Reservation;
 import com.librairie.batch.model.User;
-import feign.RetryableException;
+import com.librairie.batch.model.Waiting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +41,7 @@ public class EmailService {
                 Optional<User> user = mailService.getUser(reservation.getUserId());
                 user.ifPresent(value -> {
                     try {
-                        sendEmail(reservation, value);
+                        sendEmailForReservation(reservation, value);
                     } catch (MessagingException e) {
                         log.error("Une erreur est survenue ");
                         log.error(e.getMessage());
@@ -51,15 +51,48 @@ public class EmailService {
         } catch (NullPointerException nullPointerException) {
             log.error(nullPointerException.getMessage());
         }
+        try {
+            List<Waiting> waitingList = mailService.getWaiting().getBody();
+            waitingList.forEach(wait -> {
+                Optional<User> user = mailService.getUser(wait.getUserId());
+                user.ifPresent(value -> {
+                    try {
+                        sendEmailForWaitingList(wait, value);
+                        mailService.setDateLimite(wait);
+                    } catch (MessagingException e) {
+                        log.error("Une erreur est survenue ");
+                        log.error(e.getMessage());
+                    }
+                });
+            });
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
-    private void sendEmail(Reservation reservation, User user) throws MessagingException {
+    private void sendEmailForWaitingList(Waiting wait, User user) throws MessagingException {
         System.setProperty("mail.mime.charset", "utf8");
         MimeMessage       message = this.mailSender.createMimeMessage();
         MimeMessageHelper helper  = new MimeMessageHelper(message, true, "ISO-8859-1");
         helper.setFrom(this.defaultSender);
         helper.setTo(user.getEmail());
-        helper.setText("<h3>Bonjour " + user.getUsername() + "</h6>" +
+        helper.setText("<h3>Bonjour " + user.getUsername() + "</h3>" +
+                               "<p>Votre demande pour " + mailService.getLivreById(wait.getLivreId()).getNom() + " " +
+                               "est validé, vous avez désormais 48 heures pour récupérer votre réservation, sinon " +
+                               "elle sera considéré comme étant automatiquement annulée.</p>" +
+                               "<br><p>Merci de votre compréhension</p><p>Cordialement</p><p>Le service " +
+                               "Librairie</p>", true);
+        helper.setSubject("Urgent : Votre tour est venu !");
+        this.mailSender.send(message);
+    }
+
+    private void sendEmailForReservation(Reservation reservation, User user) throws MessagingException {
+        System.setProperty("mail.mime.charset", "utf8");
+        MimeMessage       message = this.mailSender.createMimeMessage();
+        MimeMessageHelper helper  = new MimeMessageHelper(message, true, "ISO-8859-1");
+        helper.setFrom(this.defaultSender);
+        helper.setTo(user.getEmail());
+        helper.setText("<h3>Bonjour " + user.getUsername() + "</h3>" +
                                "    <p> Merci de régulariser la réservation " + reservation.getId() + " dans les " +
                                "meilleurs " +
                                "délais. Pour rappel : </p>" +

@@ -41,7 +41,7 @@ export class ReservationComponent implements OnInit {
   extend(reservation: Reservation) {
     this.reservationService.extend(reservation).subscribe(() => {
       this.success           = true
-      reservation.dateLimite = this.addDays(reservation.dateLimite, 28)
+      reservation.dateLimite = this.reservationService.addDays(reservation.dateLimite, 28)
       reservation.extended   = true
     }, () => {
       this.error = true
@@ -49,9 +49,4 @@ export class ReservationComponent implements OnInit {
   }
 
 
-  addDays(date, days) {
-    let result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
 }

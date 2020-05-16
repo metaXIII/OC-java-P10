@@ -8,6 +8,7 @@ import com.librairie.reservation.model.Reservation;
 import com.librairie.reservation.proxies.GatewayProxy;
 import com.librairie.reservation.repositories.ReservationRepository;
 import com.librairie.reservation.service.IReservationService;
+import com.librairie.reservation.service.IWaitingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,9 @@ public class ReservationServiceImpl implements IReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Autowired
+    private IWaitingService waitingService;
+
     @Override
     public ResponseEntity reserve(ReservDto data) {
         Reservation   reservation   = new Reservation();
@@ -45,6 +49,7 @@ public class ReservationServiceImpl implements IReservationService {
                             stringBuilder.append(stringBuilder.toString().isEmpty() ? "" : ",").append(livre.getId());
                     }
                     makeReservation(reservation, stringBuilder, user);
+                    waitingService.updateWaitingList(reservation);
                 } catch (Exception e) {
                     log.error(e.getMessage());
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -117,4 +122,6 @@ public class ReservationServiceImpl implements IReservationService {
             }
         });
     }
+
+
 }

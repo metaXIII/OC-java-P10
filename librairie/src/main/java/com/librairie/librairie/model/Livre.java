@@ -32,4 +32,7 @@ public class Livre {
     private String resume;
 
     private int quantite;
+
+    @Column(name = "MAXQUANTITE")
+    private int maxQuantite;
 }

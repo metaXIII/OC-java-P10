@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +15,7 @@ import java.util.Collections;
 @JsonIgnoreProperties(value = {"password", "authorities"})
 public class User implements UserDetails {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long   id;
     private String username;
     private String password;

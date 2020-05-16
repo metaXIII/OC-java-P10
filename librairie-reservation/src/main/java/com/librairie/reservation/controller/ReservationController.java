@@ -3,8 +3,11 @@ package com.librairie.reservation.controller;
 import com.librairie.reservation.beans.UserBean;
 import com.librairie.reservation.dto.ReservDto;
 import com.librairie.reservation.dto.ReservationDto;
+import com.librairie.reservation.dto.WaitDto;
 import com.librairie.reservation.model.Reservation;
+import com.librairie.reservation.model.Waiting;
 import com.librairie.reservation.service.IReservationService;
+import com.librairie.reservation.service.IWaitingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,9 @@ public class ReservationController {
 
     @Autowired
     private IReservationService reservationService;
+
+    @Autowired
+    private IWaitingService waitingService;
 
     @PostMapping(value = "reserve", consumes = "application/json")
     public ResponseEntity reserve(@RequestBody ReservDto data) {
@@ -49,5 +55,41 @@ public class ReservationController {
     @GetMapping("validate")
     public ResponseEntity<List<Reservation>> validate() {
         return new ResponseEntity<>(reservationService.getInvalidReservations(), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "waiting", consumes = "application/json")
+    public ResponseEntity addToWaitList(@RequestBody WaitDto waitDto) {
+        return new ResponseEntity(waitingService.insertWaitingForLivreId(waitDto), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("getAllWait")
+    public ResponseEntity<List<Waiting>> NotificationsList() {
+        return new ResponseEntity<>(waitingService.getAllWaitForNotification(), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("updateWait/{id}")
+    public ResponseEntity updateWait(@PathVariable("id") Long id) {
+        return waitingService.updateWait(id);
+    }
+
+    @GetMapping("getWaitForLivreId/{id}")
+    public ResponseEntity getListOfWaitingByLivreIdWithNoProgress(@PathVariable("id") Long id) {
+        return waitingService.getListOfWaitingByLivreIdWithNoProgress(id);
+    }
+
+    @GetMapping("position/{id}")
+    public ResponseEntity getPositionForLivreId(@PathVariable("id") Long id) {
+        return waitingService.getPositionOfLivreId(id);
+    }
+
+
+    @PostMapping("getAllWaitForUser")
+    public ResponseEntity getListOfWaitingByUserId(@RequestBody UserBean userBean) {
+        return waitingService.getListOfWaitingByUserId(userBean);
+    }
+
+    @PutMapping("deleteById")
+    public ResponseEntity deleteById(@RequestBody long id) {
+        return waitingService.deleteByid(id);
     }
 }

@@ -61,6 +61,18 @@ class LibrarieServiceImplTest {
         assertEquals(202, librairieService.reserve("1").getStatusCodeValue());
     }
 
+    @Test
+    void shouldGetStockWhenAsked() {
+        when(librairieRepository.findById(anyLong())).thenReturn(Optional.of(mockLivre()));
+        assertEquals(202, librairieService.getStock("1").getStatusCodeValue());
+    }
+
+    @Test
+    void shouldReturnBadRequestCodeWhenWrongIdIsProvided() {
+        when(librairieRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertEquals(400, librairieService.getStock("1").getStatusCodeValue());
+    }
+
     private Livre mockLivre() {
         Livre livre = new Livre();
         livre.setQuantite(1);

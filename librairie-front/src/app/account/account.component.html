@@ -1,6 +1,6 @@
 <nav mat-tab-nav-bar>
   <a mat-tab-link *ngFor="let link of links" [routerLink]="link.link"
-     [ngClass]="link.index === 3 ? 'customPosition': ''"
+     [ngClass]="link.index === 4 ? 'customPosition': ''"
      routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
     {{link.label}}
   </a>

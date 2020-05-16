@@ -17,7 +17,8 @@ import { BrowserAnimationsModule }                     from '@angular/platform-b
 import {MatTabsModule}                                 from "@angular/material/tabs";
 import { SearchComponent } from './search/search.component';
 import { ReservationComponent } from './reservation/reservation.component';
-import { PanierComponent } from './panier/panier.component'
+import { PanierComponent } from './panier/panier.component';
+import { WaitingComponent } from './waiting/waiting.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PanierComponent } from './panier/panier.component'
     SearchComponent,
     ReservationComponent,
     PanierComponent,
+    WaitingComponent,
   ], imports: [
     HttpClientModule,
     BrowserModule,

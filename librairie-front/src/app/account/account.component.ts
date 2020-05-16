@@ -1,17 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService}                  from "../../service/user.service"
-import {Router}                       from "@angular/router"
-import {ReservationService}           from "../../service/reservation.service"
-import {Subscription}                 from "rxjs"
+import {UserService} from "../../service/user.service"
+import {Router} from "@angular/router"
+import {ReservationService} from "../../service/reservation.service"
+import {Subscription} from "rxjs"
 
 @Component({
-  selector: 'app-account',
+  selector   : 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+  styleUrls  : ['./account.component.scss']
 })
 export class AccountComponent implements OnInit, OnDestroy {
   links: any[]
-  activeLinkIndex       = -1
+  activeLinkIndex = -1
   private countSubscription: Subscription;
 
   constructor(private router: Router, private userService: UserService, private reservationService: ReservationService) {
@@ -32,24 +32,28 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.countSubscription.unsubscribe()
   }
 
-  private init(number : number) {
+  private init(number: number) {
     this.links = [
       {
         label: 'Liste des livres disponibles',
-        link: '/librairie',
+        link : '/librairie',
         index: 0
       }, {
         label: 'Faire une recherche',
-        link: '/search',
+        link : '/search',
         index: 1
       }, {
         label: 'mes reservations en cours',
-        link: '/reservation',
+        link : '/reservation',
         index: 2
       }, {
-        label: `Mon panier ${number}`,
-        link: '/panier',
+        label: 'Ma liste d\'attente',
+        link : '/waiting',
         index: 3
+      }, {
+        label: `Mon panier ${number}`,
+        link : '/panier',
+        index: 4
       }
     ]
   }
