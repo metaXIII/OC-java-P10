@@ -43,8 +43,10 @@ public class WaitingServiceImpl implements IWaitingService {
     @Override
     public ResponseEntity getListOfWaitingByLivreIdWithNoProgress(long id) {
         List<Waiting> waitingList = new ArrayList<>();
-        if (waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).isPresent()) {
-            waitingList = waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).get();
+        Optional<List<Waiting>> allByLivreIdAndFinishedIsFalseOrderByDateReservation =
+                waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id);
+        if (allByLivreIdAndFinishedIsFalseOrderByDateReservation.isPresent()) {
+            waitingList = allByLivreIdAndFinishedIsFalseOrderByDateReservation.get();
         }
         return new ResponseEntity(waitingList, HttpStatus.ACCEPTED);
     }
