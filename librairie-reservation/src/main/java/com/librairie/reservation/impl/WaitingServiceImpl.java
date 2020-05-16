@@ -43,8 +43,10 @@ public class WaitingServiceImpl implements IWaitingService {
     @Override
     public ResponseEntity getListOfWaitingByLivreIdWithNoProgress(long id) {
         List<Waiting> waitingList = new ArrayList<>();
-        if (waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).isPresent()) {
-            waitingList = waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id).get();
+        Optional<List<Waiting>> allByLivreIdAndFinishedIsFalseOrderByDateReservation =
+                waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(id);
+        if (allByLivreIdAndFinishedIsFalseOrderByDateReservation.isPresent()) {
+            waitingList = allByLivreIdAndFinishedIsFalseOrderByDateReservation.get();
         }
         return new ResponseEntity(waitingList, HttpStatus.ACCEPTED);
     }
@@ -65,8 +67,9 @@ public class WaitingServiceImpl implements IWaitingService {
                     } catch (NullPointerException e) {
                         log.error("Erreur de connection");
                     }
-                    if (this.getListOfWaitingByLivreId(data.getLivreId()).isPresent())
-                        tab = this.getListOfWaitingByLivreId(data.getLivreId()).get().size();
+                    Optional<List<Waiting>> listOfWaitingByLivreId = this.getListOfWaitingByLivreId(data.getLivreId());
+                    if (listOfWaitingByLivreId.isPresent())
+                        tab = listOfWaitingByLivreId.get().size();
                     if (tab < stock * 2) {
                         this.insertWaiting(data.getLivreId(), user.get().getId());
                         return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -160,16 +163,17 @@ public class WaitingServiceImpl implements IWaitingService {
     public ResponseEntity getPositionOfLivreId(Long id) {
         int               position = 0;
         Optional<Waiting> waiting  = waitingRepository.findById(id);
-        Optional<List<Waiting>> waitingList =
-                waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(waiting.get().getLivreId());
+        String            resp     = "";
         if (waiting.isPresent()) {
+            Optional<List<Waiting>> waitingList =
+                    waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(waiting.get().getLivreId());
             if (waitingList.isPresent()) {
                 while ((waiting.get().getId() != waitingList.get().get(position).getId()) && position < waitingList.get().size() - 1) {
                     position++;
                 }
+                resp = (position + 1) + "." + waitingList.get().size();
             }
         }
-        String resp = (position + 1) + "." + waitingList.get().size();
         return new ResponseEntity(resp, HttpStatus.ACCEPTED);
     }
 
