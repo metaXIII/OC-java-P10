@@ -5,7 +5,8 @@ export class WaitingModel {
               public dateReservation: Date,
               public dateNotification: Date,
               public finished: boolean,
-              public progress: boolean
+              public progress: boolean,
+              public position: any
   ) {
   }
 }

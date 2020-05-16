@@ -77,9 +77,19 @@ public class ReservationController {
         return waitingService.getListOfWaitingByLivreIdWithNoProgress(id);
     }
 
+    @GetMapping("position/{id}")
+    public ResponseEntity getPositionForLivreId(@PathVariable("id") Long id) {
+        return waitingService.getPositionOfLivreId(id);
+    }
+
 
     @PostMapping("getAllWaitForUser")
     public ResponseEntity getListOfWaitingByUserId(@RequestBody UserBean userBean) {
         return waitingService.getListOfWaitingByUserId(userBean);
+    }
+
+    @PutMapping("deleteById")
+    public ResponseEntity deleteById(@RequestBody long id) {
+        return waitingService.deleteByid(id);
     }
 }

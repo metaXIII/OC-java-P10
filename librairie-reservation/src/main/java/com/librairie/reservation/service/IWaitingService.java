@@ -24,4 +24,8 @@ public interface IWaitingService {
     ResponseEntity updateWait(Long id);
 
     ResponseEntity getListOfWaitingByUserId(UserBean userBean);
+
+    ResponseEntity getPositionOfLivreId(Long id);
+
+    ResponseEntity deleteByid(long id);
 }

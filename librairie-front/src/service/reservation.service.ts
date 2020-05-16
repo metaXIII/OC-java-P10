@@ -77,4 +77,12 @@ export class ReservationService {
   getAllWaitByUserId = () => {
     return this.httpClient.post("/service/reservation/getAllWaitForUser", this.userService.getUser())
   }
+
+  getPosition = (livreId: number) => {
+    return this.httpClient.get("/service/reservation/position/" + livreId)
+  }
+
+  deleteWait = (id: number) => {
+    return this.httpClient.put("/service/reservation/deleteById", id);
+  }
 }

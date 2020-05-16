@@ -151,4 +151,32 @@ public class WaitingServiceImpl implements IWaitingService {
             return new ResponseEntity(waitingRepository.findAllByUserIdAndFinishedIsFalseOrderByDateReservation(userBean.getId()), HttpStatus.ACCEPTED);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
+
+    @Override
+    public ResponseEntity getPositionOfLivreId(Long id) {
+        int               position = 0;
+        Optional<Waiting> waiting  = waitingRepository.findById(id);
+        Optional<List<Waiting>> waitingList =
+                waitingRepository.findAllByLivreIdAndFinishedIsFalseOrderByDateReservation(waiting.get().getLivreId());
+        if (waiting.isPresent()) {
+            if (waitingList.isPresent()) {
+                while ((waiting.get().getId() != waitingList.get().get(position).getId()) && position < waitingList.get().size() - 1) {
+                    position++;
+                }
+            }
+        }
+        String resp = (position + 1) + "." + waitingList.get().size();
+        return new ResponseEntity(resp, HttpStatus.ACCEPTED);
+    }
+
+    @Override
+    public ResponseEntity deleteByid(long id) {
+        Optional<Waiting> waiting = waitingRepository.findById(id);
+        if (waiting.isPresent()) {
+            waiting.get().setFinished(true);
+            waitingRepository.save(waiting.get());
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
 }

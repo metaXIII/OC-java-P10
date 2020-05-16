@@ -13,7 +13,10 @@
         <h6 class="card-subtitle mb-2 text-muted">Livre réservé : </h6>
         <p>{{wait.livreId}}</p>
         <p *ngIf="wait.progress">En cours</p>
-        <p *ngIf="!wait.progress">File d'attente 0/255</p>
+        <p *ngIf="!wait.progress">Position dans la file d'attente : {{getPosition(wait.position)}}</p>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-danger" (click)="delete(wait.id)">Supprimer la réservation</button>
       </div>
     </div>
   </div>
