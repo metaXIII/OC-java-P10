@@ -14,6 +14,7 @@
         <p>{{wait.livreId}}</p>
         <p *ngIf="wait.progress">En cours</p>
         <p *ngIf="!wait.progress">Position dans la file d'attente : {{getPosition(wait.position)}}</p>
+        <p *ngIf="wait.dateNotification">Date de retour prévue : {{getDateRetour(wait.dateNotification)}}</p>
       </div>
       <div class="col-4">
         <button class="btn btn-danger" (click)="delete(wait.id)">Supprimer la réservation</button>

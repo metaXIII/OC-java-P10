@@ -60,4 +60,8 @@ export class WaitingComponent implements OnInit {
     });
     this.ngOnInit()
   }
+
+  getDateRetour(dateNotification: Date) {
+    return this.reservationService.addDays(dateNotification, 2).toLocaleDateString()
+  }
 }
