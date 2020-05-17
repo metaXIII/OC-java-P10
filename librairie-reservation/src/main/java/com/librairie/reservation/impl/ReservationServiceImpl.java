@@ -43,23 +43,29 @@ public class ReservationServiceImpl implements IReservationService {
         try {
             Optional<UserBean> user = gatewayProxy.getUser(data.getUser().get("username")).getBody();
             if (Objects.requireNonNull(user).isPresent()) {
-                try {
-                    for (LivreBean livre : data.getCollection()) {
-                        if (Objects.requireNonNull(gatewayProxy.checkStock(String.valueOf(livre.getId())).getBody()).isPresent())
-                            stringBuilder.append(stringBuilder.toString().isEmpty() ? "" : ",").append(livre.getId());
-                    }
-                    makeReservation(reservation, stringBuilder, user);
-                    waitingService.updateWaitingList(reservation);
-                } catch (Exception e) {
-                    log.error(e.getMessage());
+                if (makeOperation(data, reservation, stringBuilder, user))
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
                 return new ResponseEntity<>(HttpStatus.CREATED);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    private boolean makeOperation(ReservDto data, Reservation reservation, StringBuilder stringBuilder, Optional<UserBean> user) {
+        try {
+            for (LivreBean livre : data.getCollection()) {
+                if (Objects.requireNonNull(gatewayProxy.checkStock(String.valueOf(livre.getId())).getBody()).isPresent())
+                    stringBuilder.append(stringBuilder.toString().isEmpty() ? "" : ",").append(livre.getId());
+            }
+            makeReservation(reservation, stringBuilder, user);
+            waitingService.updateWaitingList(reservation);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return true;
+        }
+        return false;
     }
 
     private void makeReservation(Reservation reservation, StringBuilder stringBuilder, Optional<UserBean> user) {
