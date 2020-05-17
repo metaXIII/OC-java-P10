@@ -93,7 +93,8 @@ public class WaitingServiceImpl implements IWaitingService {
                 }
             }
         }
-        Optional<Waiting> waiting = waitingRepository.findByUserIdAndLivreId(user.getId(), data.getLivreId());
+        Optional<Waiting> waiting = waitingRepository.findByUserIdAndLivreIdAndFinishedIsFalse(user.getId(),
+                                                                                        data.getLivreId());
         return waiting.isEmpty();
     }
 
