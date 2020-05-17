@@ -11,7 +11,6 @@ import {Router} from "@angular/router"
   styleUrls  : ['./waiting.component.scss']
 })
 export class WaitingComponent implements OnInit {
-  empty: boolean
   error: boolean
   waiting: [WaitingModel]
   collection: Livre
@@ -25,23 +24,23 @@ export class WaitingComponent implements OnInit {
   }
 
   private init() {
-    this.error = true
-    this.empty = true
     this.reservationService.getAllWaitByUserId().subscribe((resp: [WaitingModel]) => {
       resp.forEach(x => {
-        this.librairieService.findById(String(x.livreId)).subscribe((resp: Livre) => {
-          x.livreId = resp.nom
+        this.librairieService.findById(String(x.livreId)).subscribe((res: Livre) => {
+          x.livreId = res.nom
         })
-        resp.forEach(x => {
-          this.reservationService.getPosition(x.id).subscribe((resp: any) => {
-            x.position = resp
+        resp.forEach(y => {
+          this.reservationService.getPosition(x.id).subscribe((response: any) => {
+            y.position = response
           }, error => {
             console.log(error)
+            this.error = true
           })
         })
       })
       this.waiting = resp
     }, error => {
+      this.error = true
       console.log(error)
     })
   }

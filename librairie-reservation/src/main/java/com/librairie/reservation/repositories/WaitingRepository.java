@@ -19,5 +19,5 @@ public interface WaitingRepository extends JpaRepository<Waiting, Long> {
 
     List<Waiting> findAllByDateNotificationIsNotNullAndFinishedIsFalse();
 
-    Optional<Waiting> findByUserIdAndLivreId(long userId, long livreId);
+    Optional<Waiting> findByUserIdAndLivreIdAndFinishedIsFalse(long userId, long livreId);
 }
